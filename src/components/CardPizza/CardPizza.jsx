@@ -9,7 +9,18 @@ const CardPizza = ({ name, price, ingredients, img }) => {
                     <div className="card-body text-center">
                     <h5 className="card-title">{name}</h5>
                     <hr></hr>
-                    <p className="card-text">Ingredientes: {ingredients.join(", ")}</p>
+
+
+
+                    <p className="fw-semibold">Ingredientes:</p>
+                    <ul className="list-unstyled">
+                        {ingredients.map((ingrediente, index) => (
+                            <li key={index}>🍕 {ingrediente}</li>
+                        ))}
+                    </ul>
+
+
+
                     <hr></hr>
                         <p className="fw-bold">Precio: ${price}</p>
                     </div>
