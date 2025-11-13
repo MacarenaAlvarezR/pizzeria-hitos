@@ -24,7 +24,8 @@ const CardPizza = ({ name, price, ingredients, img, desc }) => {
                     </p>
 
                     <hr></hr>
-                        <p className="fw-bold">Precio: ${price}</p>
+                    <p className="fw-bold">Precio: ${price}</p>
+                    <button className="btn btn-info ms-2 text-white fw-bold">Añadir 🛒</button>
                     </div>
                 </div>
             </div>
