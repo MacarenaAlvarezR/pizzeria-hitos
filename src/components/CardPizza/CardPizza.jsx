@@ -1,6 +1,6 @@
 import React from "react";
 
-const CardPizza = ({ name, price, ingredients, img }) => {
+const CardPizza = ({ name, price, ingredients, img, desc }) => {
     return (
 
             <div className="col-md-4 mb-4">
@@ -19,7 +19,9 @@ const CardPizza = ({ name, price, ingredients, img }) => {
                         ))}
                     </ul>
 
-
+                    <p className="mt-3 text-muted" style={{ fontSize: "0.9rem" }}>
+                        {desc}
+                    </p>
 
                     <hr></hr>
                         <p className="fw-bold">Precio: ${price}</p>
