@@ -19,7 +19,7 @@ const CardPizza = ({ name, price, ingredients, img, desc }) => {
                         ))}
                     </ul>
 
-                    <p className="mt-3 text-muted" style={{ fontSize: "0.9rem" }}>
+                    <p className="mt-3 text-justify" style={{ fontSize: "0.9rem" }}>
                         {desc}
                     </p>
 

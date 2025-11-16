@@ -8,7 +8,7 @@ const Pizza = () => {
     useEffect(() => {
         const fetchPizza = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/pizzas/p001");
+                const res = await fetch("http://localhost:5000/api/pizzas/P001");
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
                 setPizza(data);
@@ -33,9 +33,9 @@ const Pizza = () => {
                 <img src={pizza.img} alt={pizza.name} className="card-img-top" />
                 <div className="card-body">
                     <h1 className="card-title">{pizza.name}</h1>
-                    <p className="card-text">{pizza.desc}</p>
+                    <p className="card-text text-justify">{pizza.desc}</p>
                     <h5>Ingredientes:</h5>
-                    <ul>
+                    <ul className="list-unstyled">
                         {pizza.ingredients.map((ing, i) => (
                             <li key={i}>{ing}</li>
                         ))}

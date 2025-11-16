@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from './components/Navbar/Navbar.jsx'
 import Home from "./components/Home/Home.jsx"
 import Footer from "./components/Footer/Footer.jsx"
@@ -11,7 +12,7 @@ import "./App.css";
 
 function App() {
 
-  const [paginaActual, setPaginaActual] = useState("home");
+  const [paginaActual, setPaginaActual] = useState("pizza");
   const cambiarPagina = (pagina) => {
     setPaginaActual(pagina);
   };
