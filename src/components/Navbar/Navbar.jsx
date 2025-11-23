@@ -1,69 +1,41 @@
-import React from 'react'
+import { Link } from "react-router-dom";
 
 const Navbar = ({ onNavClick }) => {
     console.log("onNavClick recibido:", onNavClick);
 
-    const total = 25000;
-    const token = false;
-
-    const formatPrice = (value) => value.toLocaleString("es-CL");
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <a className="navbar-brand" href="#">🍕Pizzería MammaMia</a>
+
+
+                <Link className="navbar-brand" to="/">🍕Pizzería MammaMia</Link>
 
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
-                            <button
-                                className="nav-link btn btn-link text-white"
-                                onClick={() => onNavClick("home")}
-                            >
-                                Home
-                            </button>
-
+                    <ul className="navbar-nav ms-auto m-3 ">
+                        <li className="nav-item p-2 " >
+                            <Link to="/" className="text-white">Home</Link>
                         </li>
-
-
-                        {token ? (
-                            <>
-                                <li className="nav-item">
-                                    <button
-                                        className="nav-link btn btn-link text-white"
-                                        onClick={() => onNavClick("profile")}
-                                    >
-                                        Profile
-                                    </button>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                <li className="nav-item">
-                                    <button
-                                        className="nav-link btn btn-link text-white"
-                                        onClick={() => onNavClick("login")}
-                                    >
-                                        Login
-                                    </button>
-                                </li>
-                                <li className="nav-item">
-                                    <button
-                                        className="nav-link btn btn-link text-white"
-                                        onClick={() => onNavClick("register")}
-                                    >
-                                        Register
-                                    </button>
-                                </li>
-                            </>
-                        )}
+                        <li className="nav-item p-2">
+                            <Link to="/register" className="text-white">Register</Link>
+                        </li>
+                        <li className="nav-item p-2 ">
+                            <Link to="/login" className="text-white">Login</Link>
+                        </li>
+                        <li className="nav-item p-2 ">
+                            <Link to="/profile" className="text-white">Profile</Link>
+                        </li>
                         <li className="nav-item">
-                            <button className="btn btn-info ms-2 text-white">🛒 Total: ${formatPrice(total)}</button>
+                            <Link
+                                to="/cart"
+                                className="btn btn-success"
+                            >
+                                🛒 Total: $25.000
+                            </Link>
                         </li>
                     </ul>
                 </div>

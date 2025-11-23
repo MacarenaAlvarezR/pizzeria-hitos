@@ -1,0 +1,25 @@
+#root {
+    width: 100%;
+    height: vh100;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center; 
+}
+
+.profile-container {
+    padding: 50px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.imgprofile {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 2px solid black;
+    object-fit: cover;
+}

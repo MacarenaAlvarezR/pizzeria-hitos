@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 
-function RegisterPage() {
+function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [mensaje, setMensaje] = useState("");
 
-    const manejarEnvio = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!email || !password || !confirmPassword) {
+        if (!email || !password) {
             setMensaje("❌ Todos los campos son obligatorios");
-        } else if (password.length < 6) {
+            return;
+        }
+        if (password.length < 6) {
             setMensaje("❌ La contraseña debe tener al menos 6 caracteres");
-        } else if (password !== confirmPassword) {
-            setMensaje("❌ Las contraseñas no coinciden");
+            return;
+        }
+        if (email === "macalvarez@gmail.com" && password === "pizza1") {
+            setMensaje("✅ Inicio de sesión exitoso");
         } else {
-            setMensaje("✅ Registro exitoso");
+            setMensaje("❌ Email o contraseña incorrectos.")
         }
     };
 
     return (
         <div className="container mt-5">
-            <h2>Formulario de Registro</h2>
+            <h2>Iniciar Sesión</h2>
 
-            <form onSubmit={manejarEnvio}>
+            <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label>Email:</label>
                     <input
@@ -45,18 +48,8 @@ function RegisterPage() {
                     />
                 </div>
 
-                <div className="mb-3">
-                    <label>Confirmar contraseña:</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div>
-
-                <button type="submit" className="btn btn-primary w-100">
-                    Registrarse
+                <button type="submit" className="btn btn-success w-100">
+                    Ingresar
                 </button>
             </form>
 
@@ -65,4 +58,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default Login;

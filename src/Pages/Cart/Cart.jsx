@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { pizzaCart } from "../pizzas"; 
+
+const pizzaCart = [
+    {
+        id: "P001",
+        name: "Napolitana",
+        price: 5950,
+        count: 1,
+        img: "https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_cl.jpg?alt=media&token=6a9a33da-5c00-49d4-9080-784dcc87ec2c"
+    }
+];
 
 const Cart = () => {
     const [cart, setCart] = useState(pizzaCart);
@@ -26,7 +35,7 @@ const Cart = () => {
     );
 
     return (
-        <div className="cart container-fluid m-4">
+        <div className="cart container m-4">
             <h1>🛒 Carrito de compras</h1>
 
             {cart.map((pizza) => (
@@ -49,7 +58,7 @@ const Cart = () => {
 
             <hr />
             <h2>Total: ${total.toLocaleString()}</h2>
-            <button className=" text-black border-2 border-success rounded-pill">Pagar</button>
+            <button className=" text-black border-2 border-success rounded-pill m-2">Pagar</button>
         </div>
     );
 };

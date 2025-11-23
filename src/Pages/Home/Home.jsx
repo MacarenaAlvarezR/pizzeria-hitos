@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Header/Header";
-import CardPizza from "../CardPizza/CardPizza";
+import Header from "../../components/Header/Header.jsx";
+import CardPizza from "../CardPizza/CardPizza.jsx";
 
 const Home = () => {
     const [pizzas, setPizzas] = useState([]);
@@ -10,7 +10,7 @@ const Home = () => {
     useEffect(() => {
         const fetchPizzas = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/pizzas");
+                const res = await fetch("https://tests-deploy-back.onrender.com/api/pizzas");
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
                 setPizzas(data);
