@@ -1,47 +1,40 @@
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ onNavClick }) => {
-    console.log("onNavClick recibido:", onNavClick);
+export default function Navbar() {
+    const { total } = useContext(CartContext);
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div className="container">
-
-
-                <Link className="navbar-brand" to="/">🍕Pizzería MammaMia</Link>
-
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+            <div className="container-fluid">
+                <Link className="navbar-brand" to="/">🍕 Pizzería</Link>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ms-auto m-3 ">
-                        <li className="nav-item p-2 " >
-                            <Link to="/" className="text-white">Home</Link>
-                        </li>
-                        <li className="nav-item p-2">
-                            <Link to="/register" className="text-white">Register</Link>
-                        </li>
-                        <li className="nav-item p-2 ">
-                            <Link to="/login" className="text-white">Login</Link>
-                        </li>
-                        <li className="nav-item p-2 ">
-                            <Link to="/profile" className="text-white">Profile</Link>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link
-                                to="/cart"
-                                className="btn btn-success"
-                            >
-                                🛒 Total: $25.000
-                            </Link>
+                            <Link className="nav-link" to="/profile">Profile</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/login">Login</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/register">Register</Link>
                         </li>
                     </ul>
+
+                    <Link className="btn btn-success" to="/cart">
+                        🛒 Total:  {total.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })}
+                    </Link>
                 </div>
             </div>
         </nav>
-    )
+    );
 }
-
-export default Navbar

@@ -1,66 +1,80 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
-const pizzaCart = [
-    {
-        id: "P001",
-        name: "Napolitana",
-        price: 5950,
-        count: 1,
-        img: "https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_cl.jpg?alt=media&token=6a9a33da-5c00-49d4-9080-784dcc87ec2c"
-    }
-];
-
-const Cart = () => {
-    const [cart, setCart] = useState(pizzaCart);
-
-    const increase = (id) => {
-        const updatedCart = cart.map((pizza) =>
-            pizza.id === id ? { ...pizza, count: pizza.count + 1 } : pizza
-        );
-        setCart(updatedCart);
-    };
-
-    const decrease = (id) => {
-        const updatedCart = cart
-            .map((pizza) =>
-                pizza.id === id ? { ...pizza, count: pizza.count - 1 } : pizza
-            )
-            .filter((pizza) => pizza.count > 0);
-        setCart(updatedCart);
-    };
-
-    const total = cart.reduce(
-        (sum, pizza) => sum + pizza.price * pizza.count,
-        0
-    );
+export default function Cart() {
+    const { cart, increase, decrease, total } = useContext(CartContext);
 
     return (
-        <div className="cart container m-4">
-            <h1>🛒 Carrito de compras</h1>
+        <div className="container mt-5">
+            <h2 className="text-center mb-4">Carrito</h2>
 
-            {cart.map((pizza) => (
-                <div key={pizza.id} className="cart-item" style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-                    <img src={pizza.img} alt={pizza.name} width="100" />
-                    <div>
-                        <h2>{pizza.name}</h2>
-                        <p>${pizza.price.toLocaleString()}</p>
-                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <button onClick={() => decrease(pizza.id)}>-</button>
-                            <span>{pizza.count}</span>
-                            <button onClick={() => increase(pizza.id)}>+</button>
+            <div className="d-flex flex-column align-items-center">
+                {cart.length === 0 && <p>Carrito vacío 😢</p>}
+
+                {cart.map((item) => (
+                    <div
+                        key={item.id}
+                        className="d-flex align-items-center justify-content-between shadow p-3 mb-3 rounded"
+                        style={{
+                            width: "70%",
+                            backgroundColor: "#fff",
+                            border: "1px solid #ddd",
+                        }}
+                    >
+                        {/* IMAGEN */}
+                        <img
+                            src={item.img}
+                            alt={item.name}
+                            style={{
+                                width: "90px",
+                                height: "90px",
+                                objectFit: "cover",
+                                borderRadius: "10px",
+                                marginRight: "20px",
+                            }}
+                        />
+
+                        {/* NOMBRE Y PRECIO */}
+                        <div style={{ flex: 1 }}>
+                            <strong>{item.name}</strong>
+                            <p className="m-0">
+                                ${item.price} × {item.quantity}
+                            </p>
+                        </div>
+
+                        {/* BOTONES */}
+                        <div className="d-flex align-items-center">
+                            <button
+                                className="btn btn-success btn-sm mx-2"
+                                onClick={() => increase(item.id)}
+                            >
+                                +
+                            </button>
+
+                            <span
+                                style={{
+                                    fontSize: "18px",
+                                    minWidth: "20px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {item.quantity}
+                            </span>
+
+                            <button
+                                className="btn btn-danger btn-sm mx-2"
+                                onClick={() => decrease(item.id)}
+                            >
+                                -
+                            </button>
                         </div>
                     </div>
-                    <strong style={{ marginLeft: "auto" }}>
-                        Subtotal: ${(pizza.price * pizza.count).toLocaleString()}
-                    </strong>
-                </div>
-            ))}
+                ))}
+            </div>
 
             <hr />
-            <h2>Total: ${total.toLocaleString()}</h2>
-            <button className=" text-black border-2 border-success rounded-pill m-2">Pagar</button>
+            <h2 className="text-center mt-4">Total: ${total.toLocaleString()}</h2>
+            <button className=" btn btn-success text-white m-2">Pagar</button>
         </div>
     );
-};
-
-export default Cart;
+}

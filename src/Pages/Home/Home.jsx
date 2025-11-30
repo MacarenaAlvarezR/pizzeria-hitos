@@ -1,54 +1,71 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../components/Header/Header.jsx";
-import CardPizza from "../CardPizza/CardPizza.jsx";
+import { useContext } from "react";
+import Header from "../../components/Header/Header";
+import { CartContext } from "../../context/CartContext";
+import { PizzaContext } from "../../context/PizzaContext";
+import { Link } from "react-router-dom";
 
-const Home = () => {
-    const [pizzas, setPizzas] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchPizzas = async () => {
-            try {
-                const res = await fetch("https://tests-deploy-back.onrender.com/api/pizzas");
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const data = await res.json();
-                setPizzas(data);
-            } catch (err) {
-                console.error("Error al obtener pizzas:", err);
-                setError("No se pudieron cargar las pizzas.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchPizzas();
-    }, []);
-
-    if (loading) return <p className="text-center mt-5">Cargando pizzas...</p>;
-    if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
+export default function Home() {
+    const { pizzas } = useContext(PizzaContext);
+    const { addToCart } = useContext(CartContext);
 
     return (
         <>
-            <Header />
-            <main className="container mt-4">
-                <h2 className="mb-4 text-center">Nuestras Pizzas 🍕</h2>
-                <div className="row">
-                    {pizzas.map((pizza) => (
-                        <CardPizza
-                            key={pizza.id}
-                            id={pizza.id}
-                            name={pizza.name}
-                            price={pizza.price}
-                            ingredients={pizza.ingredients}
-                            img={pizza.img}
-                            desc={pizza.desc}
-                        />
-                    ))}
-                </div>
-            </main>
-        </>
-    );
-};
+        <Header/>
+        <div className="container mt-5">
+            <div className="row g-4">
+                {pizzas.map((pizza) => (
+                    <div key={pizza.id} className="col-md-4">
+                        <div className="card shadow-sm">
 
-export default Home;
+                            <img
+                                src={pizza.img}
+                                alt={pizza.name}
+                                className="card-img-top"
+                                style={{ height: "250px", objectFit: "cover" }}
+                            />
+
+                            <div className="card-body text-center">
+
+                                <h4 className="text-capitalize">{pizza.name}</h4>
+                                <hr />
+
+                                <h6><strong>Ingredientes:</strong></h6>
+                                <ul className="list-unstyled">
+                                    {pizza.ingredients.map((ing, i) => (
+                                        <li key={i}>🍕 {ing}</li>
+                                    ))}
+                                </ul>
+
+                                <p className="text-muted" style={{ fontSize: "0.9rem" }}>
+                                    {pizza.desc}
+                                </p>
+
+                                <h5 className="mt-3">
+                                    <strong>Precio: ${pizza.price}</strong>
+                                </h5>
+
+                                <div className="d-flex justify-content-between mt-3">
+                                    <Link
+                                        to={`/pizza/${pizza.id}`}
+                                        className="btn btn-outline-primary w-50 me-2"
+                                    >
+                                        Ver más
+                                    </Link>
+
+                                    <button
+                                        className="btn btn-success w-50"
+                                        onClick={() => addToCart(pizza)}
+                                    >
+                                        Añadir al carrito
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            </div>
+            </>
+    );
+}

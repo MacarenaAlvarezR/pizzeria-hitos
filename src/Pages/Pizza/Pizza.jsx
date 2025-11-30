@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 const Pizza = () => {
     const [pizza, setPizza] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
         const fetchPizza = async () => {
@@ -34,14 +37,22 @@ const Pizza = () => {
                 <div className="card-body">
                     <h1 className="card-title">{pizza.name}</h1>
                     <p className="card-text text-justify">{pizza.desc}</p>
+
                     <h5>Ingredientes:</h5>
                     <ul className="list-unstyled">
                         {pizza.ingredients.map((ing, i) => (
-                            <li key={i}>{ing}</li>
+                            <li key={i}>🍕 {ing}</li>
                         ))}
                     </ul>
+
                     <h3 className="mt-3">Precio: ${pizza.price}</h3>
-                    <button className="btn btn-success mt-3">Añadir al carrito</button>
+
+                    <button
+                        className="btn btn-success mt-3"
+                        onClick={() => addToCart(pizza)}
+                    >
+                        Añadir al carrito
+                    </button>
                 </div>
             </div>
         </div>
