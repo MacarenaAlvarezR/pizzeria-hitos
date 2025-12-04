@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [mensaje, setMensaje] = useState("");
+
+
+    const { login } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const manejarEnvio = (e) => {
         e.preventDefault();
@@ -18,6 +24,12 @@ function Register() {
         } else {
             setMensaje("✅ Registro exitoso");
         }
+
+        login(email);
+
+        setTimeout(() => {
+            navigate("/profile");
+        }, 1000);
     };
 
     return (

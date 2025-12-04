@@ -6,15 +6,18 @@ import App from './App'
 
 import { CartProvider } from "./context/CartContext"
 import { PizzaProvider } from "./context/PizzaContext"
+import { UserProvider } from "./context/UserProvider"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <PizzaProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
-      </PizzaProvider>
+      <UserProvider>
+        <PizzaProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </PizzaProvider>
+      </UserProvider>
     </BrowserRouter>
   </StrictMode>
-)
+);

@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [mensaje, setMensaje] = useState("");
+
+    const { login } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -12,14 +17,19 @@ function Login() {
             setMensaje("❌ Todos los campos son obligatorios");
             return;
         }
+
         if (password.length < 6) {
             setMensaje("❌ La contraseña debe tener al menos 6 caracteres");
             return;
         }
-        if (email === "macalvarez@gmail.com" && password === "pizza1") {
+
+        const result = login(email, password);
+
+        if (result.ok) {
             setMensaje("✅ Inicio de sesión exitoso");
+            navigate("/profile");
         } else {
-            setMensaje("❌ Email o contraseña incorrectos.")
+            setMensaje(result.message);
         }
     };
 

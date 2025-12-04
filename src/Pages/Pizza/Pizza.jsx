@@ -1,62 +1,39 @@
+import { useParams } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 
-const Pizza = () => {
+export default function Pizza() {
+    const { id } = useParams();
     const [pizza, setPizza] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
         const fetchPizza = async () => {
-            try {
-                const res = await fetch("http://localhost:5000/api/pizzas/P001");
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const data = await res.json();
-                setPizza(data);
-            } catch (err) {
-                console.error("Error al obtener la pizza:", err);
-                setError("No se pudo cargar la pizza.");
-            } finally {
-                setLoading(false);
-            }
+            const res = await fetch(`/api/pizzas/${id}`);
+            const data = await res.json();
+            setPizza(data);
         };
 
         fetchPizza();
-    }, []);
+    }, [id]);
 
-    if (loading) return <p className="text-center mt-5">Cargando pizza...</p>;
-    if (error) return <p className="text-center mt-5 text-danger">{error}</p>;
-    if (!pizza) return <p className="text-center mt-5">Pizza no encontrada.</p>;
+    if (!pizza) return <p className="text-center mt-5">Cargando...</p>;
 
     return (
         <div className="container mt-5">
-            <div className="card mx-auto" style={{ maxWidth: 720 }}>
-                <img src={pizza.img} alt={pizza.name} className="card-img-top" />
-                <div className="card-body">
-                    <h1 className="card-title">{pizza.name}</h1>
-                    <p className="card-text text-justify">{pizza.desc}</p>
+            <h2 className="text-capitalize">{pizza.name}</h2>
 
-                    <h5>Ingredientes:</h5>
-                    <ul className="list-unstyled">
-                        {pizza.ingredients.map((ing, i) => (
-                            <li key={i}>🍕 {ing}</li>
-                        ))}
-                    </ul>
+            <img src={pizza.img} alt={pizza.name} className="img-fluid rounded" />
 
-                    <h3 className="mt-3">Precio: ${pizza.price}</h3>
+            <p className="mt-3">{pizza.desc}</p>
 
-                    <button
-                        className="btn btn-success mt-3"
-                        onClick={() => addToCart(pizza)}
-                    >
-                        Añadir al carrito
-                    </button>
-                </div>
-            </div>
+            <h4 className="mt-3">Precio: ${pizza.price}</h4>
+
+            <h5 className="mt-4">Ingredientes:</h5>
+            <ul>
+                {pizza.ingredients.map((i, index) => (
+                    <li key={index}>🍕 {i}</li>
+                ))}
+            </ul>
         </div>
     );
-};
-
-export default Pizza;
+}

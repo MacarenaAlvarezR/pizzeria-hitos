@@ -1,9 +1,11 @@
 import { useContext } from "react";
-import { CartContext } from "../../context/CartContext";
-import { Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import { NavLink, Link } from "react-router-dom";
 
 export default function Navbar() {
-    const { total } = useContext(CartContext);
+    const { token, logout } = useContext(UserContext);
+    const setActive = ({ isActive }) => (isActive ? "active" : "inactive");
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-3">
@@ -14,25 +16,38 @@ export default function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className="collapse navbar-collapse">
+                <div className="collapse navbar-collapse" >
                     <ul className="navbar-nav ms-auto m-3 ">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/profile">Profile</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/register">Register</Link>
-                        </li>
-                    </ul>
 
-                    <Link className="btn btn-success" to="/cart">
-                        🛒 Total:  {total.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })}
-                    </Link>
+                        <li className="nav-item mx-2">
+                            <NavLink className={setActive} to="/" >Home</NavLink>
+                        </li>
+
+                        <li className="nav-item mx-2">
+                            <NavLink className={setActive} to="/cart">Carrito</NavLink>
+                        </li>
+                        {token ? (
+                            <>
+                                <li className="nav-item mx-2">
+                                    <NavLink className={setActive} to="/profile">Profile</NavLink>
+                                </li>
+
+                                <button className="btn btn-danger ms-3" onClick={logout}>
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <li className="nav-item mx-2">
+                                    <NavLink className={setActive} to="/login">Login</NavLink>
+                                </li>
+
+                                <li className="nav-item mx-2">
+                                    <NavLink className={setActive} to="/register">Register</NavLink>
+                                </li>
+                            </>
+                        )}
+                    </ul>
                 </div>
             </div>
         </nav>
