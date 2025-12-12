@@ -10,26 +10,25 @@ function Login() {
     const { login } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!email || !password) {
             setMensaje("❌ Todos los campos son obligatorios");
             return;
         }
-
         if (password.length < 6) {
             setMensaje("❌ La contraseña debe tener al menos 6 caracteres");
             return;
         }
 
-        const result = login(email, password);
+        const res = await login(email, password);
 
-        if (result.ok) {
+        if (res.ok) {
             setMensaje("✅ Inicio de sesión exitoso");
             navigate("/profile");
         } else {
-            setMensaje(result.message);
+            setMensaje("❌ " + (res.message || "Credenciales incorrectas"));
         }
     };
 

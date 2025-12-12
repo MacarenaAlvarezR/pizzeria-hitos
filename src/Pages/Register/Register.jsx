@@ -8,28 +8,33 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [mensaje, setMensaje] = useState("");
 
-
-    const { login } = useContext(UserContext);
+    const { register } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const manejarEnvio = (e) => {
+    const manejarEnvio = async (e) => {
         e.preventDefault();
 
         if (!email || !password || !confirmPassword) {
             setMensaje("❌ Todos los campos son obligatorios");
-        } else if (password.length < 6) {
+            return;
+        }
+        if (password.length < 6) {
             setMensaje("❌ La contraseña debe tener al menos 6 caracteres");
-        } else if (password !== confirmPassword) {
+            return;
+        }
+        if (password !== confirmPassword) {
             setMensaje("❌ Las contraseñas no coinciden");
-        } else {
-            setMensaje("✅ Registro exitoso");
+            return;
         }
 
-        login(email);
+        const res = await register(email, password);
 
-        setTimeout(() => {
-            navigate("/profile");
-        }, 1000);
+        if (res.ok) {
+            setMensaje("✅ Registro exitoso, redirigiendo...");
+            setTimeout(() => navigate("/profile"), 600);
+        } else {
+            setMensaje("❌ " + (res.message || "No se pudo registrar"));
+        }
     };
 
     return (
@@ -39,32 +44,17 @@ function Register() {
             <form onSubmit={manejarEnvio}>
                 <div className="mb-3">
                     <label>Email:</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
                     <label>Contraseña:</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
                     <label>Confirmar contraseña:</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
+                    <input type="password" className="form-control" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                 </div>
 
                 <button type="submit" className="btn btn-primary w-100">
